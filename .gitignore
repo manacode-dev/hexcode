@@ -1,0 +1,19 @@
+# Maven build files
+/target/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# Logs or temp
+*.log
+*.tmp
