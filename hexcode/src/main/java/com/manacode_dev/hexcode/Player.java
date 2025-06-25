@@ -1,15 +1,15 @@
 package com.manacode_dev.hexcode;
 
-import java.util.Map;
-import java.util.HashMap;
-
 public class Player {
 	
 	// Basic player attributes
-	private String name = "";
-	//private int level = 0;
-	private Map<String, Discipline> disciplines = new HashMap<>();
-	private Discipline currentDiscipline;
+	private String name;
+	private int level = 1;
+	private int exp = 0;
+	private int xpToNextLevel = 100;
+	
+	// Initialize player class
+	private Discipline playerClass;
 
 	// Offensive stats
 	private int str = 10;
@@ -25,71 +25,87 @@ public class Player {
 	private int mp = 0;
 	
 	
-	
-	/*
-	 * Adding player mechanics for:
-	 *   Discipline
-	 *   EXP
-	 *   Leveling
-	 *   Stat scaling
-	 */
+	// Constructor of the player class
+	public Player(String name, Discipline playerClass) {
+		this.name = name;
+		this.playerClass = playerClass;
+	}
 	
 	/*
 	 * ===============
-	 * Discipline
+	 * Player Info
 	 * ===============
 	 */
-	public void addDiscipline(Discipline d) {
-		if (!disciplines.containsKey(d.getName())) {
-			disciplines.put(d.getName(), d);
-		} else {
-			System.out.println("Discipline '" + d.getName() + "' already exists.");
-		}
-		
+	
+	public String getName() {
+		return name;
 	}
 	
-	public void switchDisciplines(String name) {
-		if(disciplines.containsKey(name)) {
-			currentDiscipline = disciplines.get(name);
-			System.out.println("Switched to '" + name + "' discipline");
-			System.out.println("Discipline: " + name + "\n Level " + currentDiscipline.getLevel());
-		} else {
-			System.out.println("Discipline '" + name + "' not found.");
-		}
-	}
-	
-	public void showDisciplines() {
-		for (String name : disciplines.keySet()) {
-			Discipline d = disciplines.get(name);
-			System.out.println("Discipline: " + name + " | Level: " + d.getLevel() + " | XP: " + d.getXP());
-			System.out.println("--------------");
-			if (currentDiscipline != null) {
-				System.out.println("\nCurrently Equipped: " + currentDiscipline.getName() + 
-									" (Level: " + currentDiscipline.getLevel() + 
-									", XP: " + currentDiscipline.getXP() + ")");
-			} else {
-				System.out.println("\nNo discipline currently equipped.");
-			}
-		}
-	}
-	
-	public int getTotalDisciplineLevel() {
-		int total = 0;
-		for (Discipline d : disciplines.values()) {
-			total += d.getLevel();
-		}
-		
-		return total;
+	public void showPlayerClass() {
+		System.out.println("\n---Current Class---");
+		System.out.println("\nClass: " + playerClass.getName());
+		System.out.println("\nLevel: " + level);
+		System.out.println("\nExp: " + exp);
+		System.out.println("\n" + playerClass.toString());
 	}
 	
 	/*
 	 * ===============
-	 * XP
+	 * XP & Leveling
 	 * ===============
 	 */
 	
 	public void gainXP(int amt) {
-		currentDiscipline.gainXP(amt);
+		exp += amt;
+		System.out.println("\nGained " + amt + "XP!");
+		
+		if(exp >= xpToNextLevel) {
+			levelUp();
+		} else {
+			int xpRemaining = xpToNextLevel - exp;
+			System.out.println(xpRemaining + " XP needed to reach next level.");
+		}
+	}
+	
+	private void levelUp() {
+		level++;
+		exp = 0; // Resetting XP bar
+		xpToNextLevel = (int)Math.ceil(xpToNextLevel * 1.5); // Since we're using an int we want to round up on decimals
+		
+		System.out.println("\n" + name + " leveled up to Level " + level + "!");
+		System.out.println("Next level requires " + xpToNextLevel + " XP.");
+		
+		applyLevelUpBonuses();
+	}
+	
+	private void applyLevelUpBonuses() {
+		str += playerClass.getBonusStr();
+		dex += playerClass.getBonusDex();
+		intellect += playerClass.getBonusInt();
+		foc += playerClass.getBonusFoc();
+		vit += playerClass.getBonusVit();
+		def += playerClass.getBonusDef();
+		res += playerClass.getBonusRes();
+		
+		System.out.println("\nStats Increased on Level-Up!");
+		showStats();
+	}
+	
+	// Getters & setters for external access (if needed)
+	public int getLevel() {
+		return level;
+	}
+	
+	public void setLevel(int l) {
+		this.level = l;
+	}
+	
+	public void setXP(int xp) {
+		this.exp = xp;
+	}
+	
+	public int getXP() {
+		return exp;
 	}
 	
 	/*
@@ -100,12 +116,23 @@ public class Player {
 	
 	public void showStats() {
 		System.out.println("\n-------Player Stats ------");
-		System.out.println("STR: " + str + " | DEX: " + dex + " | VIT: " + vit + " | INT: " + intellect + " | FOC: " + foc);
+		System.out.println("\nName: " + name);
+		System.out.println("\nClass: " + playerClass.getName());
+		System.out.println("\nSTR: " + str + " | DEX: " + dex + " | VIT: " + vit + " | INT: " + intellect + " | FOC: " + foc);
 		System.out.println("VIT: " + vit + " | DEF: " + def + " | RES: " + res);
-		System.out.println("HP: " + getMaxHP() + " | MP: " + getMaxMP());
-		System.out.println("Melee Power: " + getMeleePower() + 
-							" | Ranged Power: " + getRangedPower() + 
-							" | Magic Power: " + getMagicPower());
+		System.out.println("\nMax HP: " + getMaxHP() + " | Max MP: " + getMaxMP());
+		showPowerStats();
+	}
+	
+	public void showPowerStats() {
+		
+		switch(playerClass.getName().toLowerCase()) {
+		case "ironveil" -> System.out.println("Melee Power: " + getMeleePower());
+		case "hollowshot" -> System.out.println("Ranged Power: " + getRangedPower());
+		case "runeweaver" -> System.out.println("Magic Power: " + getMagicPower());
+		default -> System.out.println("Power stats unavailable");
+		}
+		
 	}
 	
 	public int getMaxHP() {
@@ -128,6 +155,14 @@ public class Player {
 		return intellect * 2;
 	}
 	
-	
+	public void applyStartingBonuses() {
+		str += playerClass.getBonusStr();
+		dex += playerClass.getBonusDex();
+		intellect += playerClass.getBonusInt();
+		foc += playerClass.getBonusFoc();
+		vit += playerClass.getBonusVit();
+		def += playerClass.getBonusDef();
+		res += playerClass.getBonusRes();
+	}
 	
 }

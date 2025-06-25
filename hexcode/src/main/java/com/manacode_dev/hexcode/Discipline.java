@@ -4,8 +4,6 @@ public class Discipline {
 	
 	private String description;
 	private String name = "";
-	private int level = 0;
-	private int exp = 0;
 	private int bonusStr;
 	private int bonusInt;
 	private int bonusDex;
@@ -14,11 +12,9 @@ public class Discipline {
 	private int bonusDef;
 	private int bonusRes;
 	
-	public Discipline(String name, int level, int exp, int str, int dex,
+	public Discipline(String name, int str, int dex,
 			int intellect, int foc, int vit, int def, int res, String description) {
 		this.name = name;
-		this.level = level;
-		this.exp = exp;
 		this.bonusStr = str;
 		this.bonusDex = dex;
 		this.bonusInt = intellect;
@@ -38,27 +34,46 @@ public class Discipline {
 		this.name = name;
 	}
 
-	public int getLevel() {
-		return level;
+	
+	/*
+	 * ==================
+	 * Stat bonus getters
+	 * ==================
+	 */
+	
+	public int getBonusStr() {
+		return bonusStr;
 	}
 	
-	public void setLevel(int l) {
-		this.level = l;
+	public int getBonusDex() {
+		return bonusDex;
 	}
 	
-	public void gainXP(int amt) {
-		this.exp += amt;
+	public int getBonusInt() {
+		return bonusInt;
 	}
 	
-	public int getXP() {
-		return exp;
+	public int getBonusFoc() {
+		return bonusFoc;
+	}
+	
+	public int getBonusVit() {
+		return bonusVit;
+	}
+	
+	public int getBonusDef() {
+		return bonusDef;
+	}
+	
+	public int getBonusRes() {
+		return bonusRes;
 	}
 	
 	@Override
 	public String toString() {
-	    return name + " (Level " + level + ")\n" +
-	           "STR+" + bonusStr + ", DEX+" + bonusDex + ", INT+" + bonusInt + ", FOC+" + bonusFoc + "\n" +
-	           "VIT+" + bonusVit + ", DEF+" + bonusDef + ", RES+" + bonusRes + "\n\n" +
+	    return name + " \n" +
+	           "Bonus STR: " + bonusStr + ", Bonus DEX: " + bonusDex + ", Bonus INT: " + bonusInt + ", Bonus FOC: " + bonusFoc + "\n" +
+	           "Bonus VIT: " + bonusVit + ", Bonus DEF: " + bonusDef + ", Bonus RES: " + bonusRes + "\n\n" +
 	           description;
 	}
 }
