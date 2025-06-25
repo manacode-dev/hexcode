@@ -1,5 +1,5 @@
 <h1>Hexcode</h1>
-<p>This is a small project I'm working on to better understand a lot of OOP concepts and design patterns.</p>
+<p>This is a small project I'm working on to better understand a lot of OOP concepts and design patterns. Hoping to turn this idea into some type of reality and expand on in future updates.</p>
 
 <h1>📂 Project Structure</h1>
 <ul>
