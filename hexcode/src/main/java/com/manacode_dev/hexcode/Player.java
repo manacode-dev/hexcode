@@ -29,6 +29,9 @@ public class Player {
 	public Player(String name, Discipline playerClass) {
 		this.name = name;
 		this.playerClass = playerClass;
+
+		// Stat bonuses based on class
+		applyStartingBonuses();
 	}
 	
 	/*
@@ -74,21 +77,41 @@ public class Player {
 		
 		System.out.println("\n" + name + " leveled up to Level " + level + "!");
 		System.out.println("Next level requires " + xpToNextLevel + " XP.");
-		
+
 		applyLevelUpBonuses();
+		showStats();
 	}
 	
-	private void applyLevelUpBonuses() {
-		str += playerClass.getBonusStr();
-		dex += playerClass.getBonusDex();
-		intellect += playerClass.getBonusInt();
-		foc += playerClass.getBonusFoc();
-		vit += playerClass.getBonusVit();
-		def += playerClass.getBonusDef();
-		res += playerClass.getBonusRes();
+	private void applyStartingBonuses() {
+		// Getting starting bonuses from the Disciplines StatBlock set
+		StatBlock bonus = playerClass.getStartingBonuses();
+		str += bonus.str;
+		dex += bonus.dex;
+		intellect += bonus.intel;
+		foc += bonus.foc;
+		vit += bonus.vit;
+		def += bonus.def;
+		res += bonus.res;
 		
 		System.out.println("\nStats Increased on Level-Up!");
 		showStats();
+	}
+
+	private void applyLevelUpBonuses() {
+
+		// Getting level up bonuses from Disciplines' StatBlock set
+		StatBlock levelBonus = playerClass.getLevelUpBonuses();
+
+		str += levelBonus.str;
+		dex += levelBonus.dex;
+		intellect += levelBonus.intel;
+		foc += levelBonus.foc;
+		vit += levelBonus.vit;
+		def += levelBonus.def;
+		res += levelBonus.res;
+
+		System.out.println("\nStats Increased on Level-Up!");
+		System.out.println("\nBonuses applied: " + levelBonus.toString());
 	}
 	
 	// Getters & setters for external access (if needed)
@@ -153,16 +176,6 @@ public class Player {
 	
 	public int getMagicPower() {
 		return intellect * 2;
-	}
-	
-	public void applyStartingBonuses() {
-		str += playerClass.getBonusStr();
-		dex += playerClass.getBonusDex();
-		intellect += playerClass.getBonusInt();
-		foc += playerClass.getBonusFoc();
-		vit += playerClass.getBonusVit();
-		def += playerClass.getBonusDef();
-		res += playerClass.getBonusRes();
 	}
 	
 }

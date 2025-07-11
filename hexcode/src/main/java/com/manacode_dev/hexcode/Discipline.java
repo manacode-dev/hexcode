@@ -2,26 +2,15 @@ package com.manacode_dev.hexcode;
 
 public class Discipline {
 	
-	private String description;
+	private String description = "";
 	private String name = "";
-	private int bonusStr;
-	private int bonusInt;
-	private int bonusDex;
-	private int bonusFoc;
-	private int bonusVit;
-	private int bonusDef;
-	private int bonusRes;
+	private StatBlock startingBonuses = null;
+	private StatBlock levelUpBonuses = null;
 	
-	public Discipline(String name, int str, int dex,
-			int intellect, int foc, int vit, int def, int res, String description) {
+	public Discipline(String name, StatBlock startingBonuses, StatBlock levelUpBonuses, String description) {
 		this.name = name;
-		this.bonusStr = str;
-		this.bonusDex = dex;
-		this.bonusInt = intellect;
-		this.bonusFoc = foc;
-		this.bonusVit = vit;
-		this.bonusDef = def;
-		this.bonusRes = res;
+		this.startingBonuses = startingBonuses;
+		this.levelUpBonuses = levelUpBonuses;
 		this.description = description;
 	}
 	
@@ -41,39 +30,19 @@ public class Discipline {
 	 * ==================
 	 */
 	
-	public int getBonusStr() {
-		return bonusStr;
+	public StatBlock getStartingBonuses () {
+		return startingBonuses;
 	}
-	
-	public int getBonusDex() {
-		return bonusDex;
-	}
-	
-	public int getBonusInt() {
-		return bonusInt;
-	}
-	
-	public int getBonusFoc() {
-		return bonusFoc;
-	}
-	
-	public int getBonusVit() {
-		return bonusVit;
-	}
-	
-	public int getBonusDef() {
-		return bonusDef;
-	}
-	
-	public int getBonusRes() {
-		return bonusRes;
+
+	public StatBlock getLevelUpBonuses() {
+		return levelUpBonuses;
 	}
 	
 	@Override
 	public String toString() {
-	    return name + " \n" +
-	           "Bonus STR: " + bonusStr + ", Bonus DEX: " + bonusDex + ", Bonus INT: " + bonusInt + ", Bonus FOC: " + bonusFoc + "\n" +
-	           "Bonus VIT: " + bonusVit + ", Bonus DEF: " + bonusDef + ", Bonus RES: " + bonusRes + "\n\n" +
-	           description;
+		return name + " \n" +
+				"Starting Bonuses → " + (startingBonuses != null ? startingBonuses.toString() : "N/A") + "\n" +
+				"Level-Up Bonuses → " + (levelUpBonuses != null ? levelUpBonuses.toString() : "N/A")+ "\n\n" +
+				description;
 	}
 }
