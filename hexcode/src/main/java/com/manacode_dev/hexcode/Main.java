@@ -29,7 +29,7 @@ public class Main {
 			case 2 -> chosenDiscipline = DisciplineFactory.createHollowshot();
 			case 3 -> chosenDiscipline = DisciplineFactory.createRuneweaver();
 			default -> {
-				System.out.println("Invalid choice.");
+				System.out.println("Invalid choice!");
 				continue;
 			}
 
