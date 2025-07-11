@@ -16,7 +16,7 @@ public class Main {
 
 		while (finishedClassSelection == false) {
 
-			System.out.println("\nChoose your discipline: ");
+			System.out.println("\nChoose your discipline by number: ");
 			System.out.println("1. Ironveil");
 			System.out.println("2. Hollowshot");
 			System.out.println("3. Runeweaver");
