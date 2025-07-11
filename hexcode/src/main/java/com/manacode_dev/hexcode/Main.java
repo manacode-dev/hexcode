@@ -10,7 +10,7 @@ public class Main {
 		System.out.print("\nEnter your character name: ");
 		String name = scanner.nextLine();
 
-		Discipline chosenDiscipline = null;
+		Discipline chosenDiscipline;
 
 		boolean finishedClassSelection = false;
 
@@ -36,7 +36,6 @@ public class Main {
 			}
 
 			Player player = new Player(name, chosenDiscipline);
-			player.applyStartingBonuses();
 			player.showPlayerClass();
 			player.showStats();
 
@@ -45,7 +44,9 @@ public class Main {
 
 			switch (classChoice.toLowerCase()) {
 			case "y" -> finishedClassSelection = true;
-			case "n" -> finishedClassSelection = false;
+			case "n" -> {
+                finishedClassSelection = false;
+            }
 			default -> System.out.println("\nInvalid Choice. Try again.");
 			}
 
